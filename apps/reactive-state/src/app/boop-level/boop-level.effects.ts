@@ -9,6 +9,7 @@ import { addDadJoke } from '../boop.actions';
 export class BoopLevelEffects {
   constructor(private store: Store, private actions$: Actions) {}
 
+  loaded = false;
   dadJoke = '';
 
   makeDadJoke = createEffect(
@@ -22,6 +23,11 @@ export class BoopLevelEffects {
             return;
           }
 
+          if (this.loaded === true) {
+            return;
+          }
+
+          this.loaded = true;
           fetch('https://icanhazdadjoke.com/', {
             headers: {
               Accept: 'application/json',
