@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "projects": {
+    "reactive-state": {
+      "projectType": "application",
+      "root": "apps/reactive-state",
+      "sourceRoot": "apps/reactive-state/src",
+      "prefix": "reactive-state-ngrx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/reactive-state",
+            "index": "apps/reactive-state/src/index.html",
+            "main": "apps/reactive-state/src/main.ts",
+            "polyfills": "apps/reactive-state/src/polyfills.ts",
+            "tsConfig": "apps/reactive-state/tsconfig.app.json",
+            "assets": [
+              "apps/reactive-state/src/favicon.ico",
+              "apps/reactive-state/src/assets"
+            ],
+            "styles": ["apps/reactive-state/src/styles.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/reactive-state/src/environments/environment.ts",
+                  "with": "apps/reactive-state/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "reactive-state:build:production"
+            },
+            "development": {
+              "browserTarget": "reactive-state:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "reactive-state:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/reactive-state/src/**/*.ts",
+              "apps/reactive-state/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/reactive-state"],
+          "options": {
+            "jestConfig": "apps/reactive-state/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "reactive-state-e2e": {
+      "root": "apps/reactive-state-e2e",
+      "sourceRoot": "apps/reactive-state-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/reactive-state-e2e/cypress.json",
+            "devServerTarget": "reactive-state:serve:development",
+            "tsConfig": "apps/reactive-state-e2e/tsconfig.json"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "reactive-state:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/reactive-state-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "npm"
+  },
+  "schematics": {
+    "@nrwl/angular": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      },
+      "storybook-configuration": {
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "style": "css",
+      "linter": "eslint",
+      "unitTestRunner": "jest"
+    },
+    "@nrwl/angular:component": {
+      "style": "css"
+    }
+  },
+  "defaultProject": "reactive-state"
+}
